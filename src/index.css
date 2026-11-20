@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+/* Token dari file Figma "PetShop" */
+@theme {
+  --font-sans: "Quicksand", ui-sans-serif, system-ui, sans-serif;
+  --font-jakarta: "Plus Jakarta Sans", "Quicksand", sans-serif;
+  --color-cream: #fff6de;
+  --color-orange: #ef9820;
+  --color-sand: #ffebbc;
+  --color-red: #dc231e;
+  --color-blue: #3846c9;
+  --color-brown: #6f3919;
+  --color-ink: #505050;
+  --color-ink-2: #5f5f5f;
+  --color-muted: #929292;
+  --color-green: #009f52;
+  --color-coral: #ff7474;
+}
+
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: #1d1d1f;
+  -webkit-tap-highlight-color: transparent;
+}
+button { cursor: pointer; }
+
+.hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+
+@keyframes sheetUp { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes toastIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.anim-sheet { animation: sheetUp .24s cubic-bezier(.2,.8,.2,1); }
+.anim-fade { animation: fadeIn .2s ease-out; }
+.anim-toast { animation: toastIn .2s ease-out; }
+@media (prefers-reduced-motion: reduce) { .anim-sheet, .anim-fade, .anim-toast { animation: none; } }
+
+button:focus-visible, a:focus-visible { outline: 2px solid #3846c9; outline-offset: 2px; }
+/* Tombol Booking di navigasi bawah polos kuning: fokus keyboard ditandai garis bawah pada labelnya */
+button[data-coach="booking"]:focus-visible { outline: none; box-shadow: none; }
+button[data-coach="booking"]:focus-visible > span:last-child { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Area sentuh minimal 44px tanpa mengubah tampilan: tombol yang lebih kecil diperluas secara tak terlihat */
+button:not(.absolute):not(.relative):not(.fixed):not(.sticky) { position: relative; }
+button::after {
+  content: '';
+  position: absolute;
+  left: min(0px, calc((100% - 44px) / 2));
+  right: min(0px, calc((100% - 44px) / 2));
+  top: min(0px, calc((100% - 44px) / 2));
+  bottom: min(0px, calc((100% - 44px) / 2));
+}
+
+/* Carousel horizontal: snap + jarak di ujung kanan + geser mulus di HP */
+.h-scroll { scroll-snap-type: x proximity; scroll-padding-inline: 26px; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; touch-action: pan-x pan-y; }
+.h-scroll > * { scroll-snap-align: start; }
+.h-scroll::after { content: ''; flex: 0 0 12px; }
+
+/* Geser dengan mouse: kursor grab, tanpa seleksi teks saat menyeret */
+.drag-x { cursor: grab; }
+.drag-x.dragging, .drag-x.dragging * { cursor: grabbing !important; user-select: none; }
+.drag-x.dragging { scroll-behavior: auto; }
+.drag-x img { -webkit-user-drag: none; }
